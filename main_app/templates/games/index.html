@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Game List</h1>
+
+{% for game in games %}
+    <div class='card'>
+        <div class='card-content'>
+            <span class='card-title'>{{ game.title }}</span>
+            <p>Description: {{ game.description }}</p>
+            {% if game.rating >= 90 %}
+                <p>⭐⭐⭐⭐⭐</p>
+            {% elif game.rating >= 80 %}
+                <p>⭐⭐⭐⭐</p>
+            {% elif game.rating >= 70 %}
+                <p>⭐⭐⭐</p>
+            {% elif game.rating >= 60 %}
+                <p>⭐⭐</p>
+            {% else %}
+                <p>⭐</p>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}
