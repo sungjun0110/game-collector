@@ -2,47 +2,12 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-PLATFORMS = (
-    # Windows
-    ('W11', 'Windows 11'),
-    ('W10', 'Windows 10'),
-    ('W7', 'Windows 7'),
-    # Mac
-    ('M', 'Mac'),
-    # Xbox
-    ('XSX', 'XBox Series X'),
-    ('XSS', 'XBox Series S'),
-    ('XOS', 'XBox One S'),
-    ('XOX', 'XBox One X'),
-    ('XO', 'XBox One'),
-    ('X36', 'XBox 360'),
-    ('X', 'XBox'),
-    # Playstations
-    ('PS5', 'Playstation 5'),
-    ('PS4', 'Playstation 4'),
-    ('PS3', 'Playstation 3'),
-    ('PS2', 'Playstation 2'),
-    ('PS1', 'Playstation 1'),
-    # Nintendo
-    ('NS', 'Nintendo Switch'),
-    ('WiU', 'Wii U'),
-    ('Wii', 'Wii'),
-    ('NGC', 'Nintendo GameCube'),
-    ('N64', 'Nintendo 64'),
-    # Mobile
-    ('iOS', 'iOS'),
-    ('And', 'Android'),
-)
-
 # Create your models here.
 class Release(models.Model):
-    platform = models.CharField(
-        max_length=3,
-        choices=PLATFORMS,
-    )
+    platform = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"{self.get_platform_display()}"
+        return self.platform
 
     def get_absolute_url(self):
         return reverse('releases_detail', kwargs={'pk': self.id})

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    {% if object %}
+        <h1>Edit <span class="teal-text">{{ object.platform }}</span></h1>
+    {% else %}
+        <h1>Add Platform</h1>
+    {% endif %}
+    
+    <form ation="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit!" class="btn">
+    </form>
+
+{% endblock %}

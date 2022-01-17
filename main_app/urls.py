@@ -13,7 +13,10 @@ urlpatterns = [
     path('games/<int:game_id>/add_playhistory/', views.add_playhistory, name='add_playhistory'),
     path('games/<int:game_id>/assoc_release/<int:release_id>', views.assoc_release, name='assoc_release'),
     path('games/<int:game_id>/add_photo/', views.add_photo, name='add_photo'),
+    path('releases/', views.ReleaseList.as_view(), name="releases_index"),
+    path('releases/<int:pk>', views.ReleaseDetail.as_view(), name="releases_detail"),
     path('releases/create/', views.ReleaseCreate.as_view(), name="releases_create"),
-    path('releases/', views.ReleaseDetail.as_view(), name="releases_index"),
+    path('releases/<int:pk>/update/', views.ReleaseUpdate.as_view(), name="releases_update"),
+    path('releases/<int:pk>/delete/', views.ReleaseDelete.as_view(), name="releases_delete"),
     path('accounts/signup/', views.signup, name='signup'),
 ]

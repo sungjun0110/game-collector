@@ -99,7 +99,7 @@ class ReleaseUpdate(LoginRequiredMixin, UpdateView):
     model = Release
     fields = ['platform']
 
-class ReleaseDelete(LoginRequiredMixin, DetailView):
+class ReleaseDelete(LoginRequiredMixin, DeleteView):
     model = Release
     success_url = '/releases/'
 
