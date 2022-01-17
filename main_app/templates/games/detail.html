@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Game Detail</h1>
+
+<div class="row">
+    <div class="col s6">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ game.title }}</span>
+                <p>Genre: {{ game.genre }}</p>
+                {% if game.rating >= 90 %}
+                    <p>⭐⭐⭐⭐⭐</p>
+                {% elif game.rating >= 80 %}
+                    <p>⭐⭐⭐⭐</p>
+                {% elif game.rating >= 70 %}
+                    <p>⭐⭐⭐</p>
+                {% elif game.rating >= 60 %}
+                    <p>⭐⭐</p>
+                {% else %}
+                    <p>⭐</p>
+                {% endif %}
+            </div>
+            <div class="card-action">
+                <a href="{% url 'games_update' game.id %}">Edit</a>
+                <a href="{% url 'games_delete' game.id %}">Delete</a>
+            </div>
+        </div>
+        {% for photo in game.photo_set.all %}
+            <img class="responsive-img card-panel" src="{{ photo.url }}">
+        {% empty %}
+            <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+        {% endfor %}
+        
+        <form action="{% url 'add_photo' game.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+            {% csrf_token %}
+            <input type="file" name="photo-file">
+            <br><br>
+            <input type="submit" class="btn" value="Upload Photo">
+        </form>
+    </div>
+    <div class="col s6">
+        <form action="{% url 'add_playhistory' game.id %}" method="post">
+            {% csrf_token %}
+            {{ playhistory_form.as_p }}
+            <input type="submit" class="btn" value="Add Playhistory">
+        </form>
+        <table class="striped">
+            <thead>
+                <tr><th>Date</th><th>Playtime</th></tr>
+            </thead>
+            <tbody>
+                {% for history in game.playhistory_set.all %}
+                    <tr>
+                        <td>{{ history.date }}</td>
+                        <td>{{ history.playtime }} hours</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<hr>
+<div class="row">
+    <div class="col s6">
+        <h3>{{ game.title }}'s Releases</h3>
+        {% if game.releases.count %}
+            {% for release in game.releases.all %}
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">
+                            {{ release.get_platform_display }}
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h5>No Release Info :(</h5>
+        {% endif %}
+    </div>
+    <div class="col s6">
+        <h3>Available Platforms</h3>
+        {% if releases.count %}
+            {% for release in releases.all %}
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">
+                            {{ release.get_platform_display }}
+                        </span>
+                    </div>
+                    <div class="card-action">
+                        <form action="{% url 'assoc_release' game.id release.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn">Add</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h5>{{game.name}} Already Has All Platforms Available</h5>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const dateEl = document.getElementById('id_date');
+    M.Datepicker.init(dateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+    });
+</script>
+{% endblock %}

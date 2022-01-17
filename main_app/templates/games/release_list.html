@@ -1,0 +1,16 @@
+{% extends 'base.html %}
+{% block content %}
+
+<h1>Release List</h1>
+
+{% for release in release_list %}
+    <a href="{% url 'releases_detail' release.id %}">
+        <div class="card">
+            <div class="ccard-content">
+                <spanclass="card-title">{{ release.platform }}u</span>
+            </div>
+        </div>
+    </a>
+{% endfor %}
+
+{% endblock %}
